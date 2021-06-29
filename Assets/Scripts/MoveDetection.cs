@@ -37,7 +37,7 @@ public class MoveDetection : MonoBehaviour
         isTouching = true;
     }
 
-    private void StopMove(Vector2 position, float time) {
+    private void StopMove() {
         moveDirection = 0;
         isTouching = false;
     }

@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
     #region Events
     public delegate void StartTouchEvent(InputAction position);
     public event StartTouchEvent OnStartTouch;
-    public delegate void EndTouchEvent(Vector2 pos, float time);
+    public delegate void EndTouchEvent();
     public event EndTouchEvent OnEndTouch;
     #endregion
     
@@ -36,13 +36,10 @@ public class InputManager : MonoBehaviour
     }
 
     private void StartTouch(InputAction.CallbackContext context) {
-        Debug.Log("start");
         if (OnStartTouch != null) OnStartTouch(playerControls.TouchControls.TouchPosition);
     }
 
     private void EndTouch(InputAction.CallbackContext context) {
-        Debug.Log("end");
-        if (OnEndTouch != null) OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControls.TouchControls.TouchPosition.ReadValue<Vector2>()),
-            (float)context.time);
+        if (OnEndTouch != null) OnEndTouch();
     }
 }
