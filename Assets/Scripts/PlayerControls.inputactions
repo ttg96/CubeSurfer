@@ -20,6 +20,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "New action",
+                    "type": "PassThrough",
+                    "id": "2c4f1941-83dc-4fc2-8de2-5b9680eeedae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -37,11 +45,22 @@
                 {
                     "name": "",
                     "id": "d131a6c3-33bb-4b3f-82c7-a1a7112ad7f2",
-                    "path": "<Touchscreen>/primaryTouch/position",
+                    "path": "<Touchscreen>/primaryTouch/delta",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "745ff31f-95f6-4600-9698-82cab57aa7b7",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPosition",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

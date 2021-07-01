@@ -17,4 +17,5 @@ public class TowerCube : MonoBehaviour
             transform.parent = null;
         }
     }
+
 }

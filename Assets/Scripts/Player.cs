@@ -11,12 +11,14 @@ public class Player : MonoBehaviour
     private int towerSize;
     private List<GameObject> tower;
     private Transform playerPawn;
+    [SerializeField]
+    private int score;
 
     // Start is called before the first frame update
     void Start()
     {
+        score = 0;
         tower = new List<GameObject>(towerSize);
-
         playerPawn = transform.GetChild(0).gameObject.transform;
         for (int i = 0; i < playerPawn.childCount; i++) {
             tower.Add(playerPawn.GetChild(i).gameObject);
@@ -32,6 +34,17 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Stack") {
             AddCubes(collision.gameObject.transform.GetComponent<Stack>().TowerCollection());
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision) {
+        if(collision.gameObject.tag == "Collectible") {
+            score++;
+            Destroy(collision.gameObject);
+        } else if(collision.gameObject.tag == "TurnLeftTrigger") {
+            Debug.Log("Here");
+            Vector3 newRotation = new Vector3(0, -90, 0);
+            transform.Rotate(newRotation, Space.World);
         }
     }
 
