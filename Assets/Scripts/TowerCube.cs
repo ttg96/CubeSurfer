@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class TowerCube : MonoBehaviour
 {
+
+    private Player player;
+
+    private void Awake() {
+        player = FindObjectOfType<Player>();
+    }
+
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag == "Stack") {
-            AddCubes(collision.gameObject.transform.GetComponent<Stack>().TowerCollection());
+        if (collision.gameObject.tag == "Wall") {
+            player.RemoveCubes(transform.gameObject);
+            transform.parent = null;
         }
     }
+
 }

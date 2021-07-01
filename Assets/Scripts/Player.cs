@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
+        Debug.Log("Collision");
         if (collision.gameObject.tag == "Stack") {
             AddCubes(collision.gameObject.transform.GetComponent<Stack>().TowerCollection());
         }
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
     }
 
     public void RemoveCubes(GameObject cube) {
-
+        tower.Remove(cube);
+        towerSize--;
     }
 }
