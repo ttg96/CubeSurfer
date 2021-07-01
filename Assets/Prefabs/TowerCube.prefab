@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5795156413812285680}
   - component: {fileID: 2056424851697433697}
   - component: {fileID: -7080351269488011159}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TowerCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

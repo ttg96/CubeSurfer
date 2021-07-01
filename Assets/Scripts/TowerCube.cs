@@ -11,11 +11,10 @@ public class TowerCube : MonoBehaviour
         player = FindObjectOfType<Player>();
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Wall") {
             player.RemoveCubes(transform.gameObject);
             transform.parent = null;
         }
     }
-
 }

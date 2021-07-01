@@ -30,7 +30,6 @@ public class Player : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("Collision");
         if (collision.gameObject.tag == "Stack") {
             AddCubes(collision.gameObject.transform.GetComponent<Stack>().TowerCollection());
         }
