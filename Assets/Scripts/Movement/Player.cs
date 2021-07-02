@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
             tower.Add(playerPawn.GetChild(i).gameObject);
         }
         manager.UpdateScore(score);
-        manager.UpdateMultiplier(score);
+        manager.UpdateMultiplier(multiplier);
     }
 
     private void OnCollisionEnter(Collision collision) {
