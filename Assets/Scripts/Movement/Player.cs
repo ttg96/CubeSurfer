@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
         for (int i = 0; i < playerPawn.childCount; i++) {
             tower.Add(playerPawn.GetChild(i).gameObject);
         }
+        manager.UpdateScore(score);
+        manager.UpdateMultiplier(score);
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -44,7 +46,8 @@ public class Player : MonoBehaviour {
             StartCoroutine(Rotate(1));
             Destroy(collision.gameObject);
         } else if (collision.gameObject.tag == "BonusTrigger") {
-            multiplier *= 2;
+            multiplier += 3;
+            manager.UpdateMultiplier(multiplier);
             Destroy(collision.gameObject);
         } else if (collision.gameObject.tag == "Finish") {
             EndLevel(true);

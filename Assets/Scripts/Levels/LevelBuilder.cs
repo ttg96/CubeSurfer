@@ -30,9 +30,9 @@ public class LevelBuilder : MonoBehaviour
     }
 
     public void RestartLevel() {
+        SpawnPlayer();
         ResetLevel();
         LoadLevel();
-        SpawnPlayer();
     }
 
     public void LoadLevel() {

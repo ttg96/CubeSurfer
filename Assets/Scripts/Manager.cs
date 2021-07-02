@@ -8,6 +8,8 @@ public class Manager : MonoBehaviour
     [SerializeField]
     private Text currentScore;
     [SerializeField]
+    private Text currentMultiplier;
+    [SerializeField]
     private Text finalScore;
     [SerializeField]
     private Text highScore;
@@ -44,12 +46,17 @@ public class Manager : MonoBehaviour
         currentScore.text = "Score: " + score;
     }
 
+    public void UpdateMultiplier(int multi) {
+        currentMultiplier.text = "Multiplier: x" + multi;
+    }
+
     public void UpdateHighscores() {
         highScore.text = "Current score: " + PlayerPrefs.GetInt("HighScore");
     }
 
     public void UpdateFinalScores(int score) {
         finalScore.text = "Final Score: " + score;
+        PlayerPrefs.SetInt("HighScore", PlayerPrefs.GetInt("HighScore") + score);
     }
 
     public void PauseGame(bool state) {
