@@ -25,12 +25,16 @@ public class Manager : MonoBehaviour
     private GameObject nextLevel;
     [SerializeField]
     private Button[] levelButtons;
+    [SerializeField]
+    private AudioClip[] clips;
+    private AudioSource source;
     private LevelBuilder levelBuilder;
 
 
     private void Start() {
         PauseGame(true);
         levelBuilder = GetComponent<LevelBuilder>();
+        source = GetComponent<AudioSource>();
         if (!PlayerPrefs.HasKey("UnlockedLevels")) PlayerPrefs.SetInt("UnlockedLevels", 0);
         if (!PlayerPrefs.HasKey("HighScore")) PlayerPrefs.SetInt("HighScore", 0);
     }
@@ -118,11 +122,16 @@ public class Manager : MonoBehaviour
         gameOverScreen.SetActive(true);
         UpdateFinalScores(score);
         if (finished) {
+            PlayAudioClip(2);
             nextLevel.SetActive(true);
             PlayerPrefs.SetInt("UnlockedLevels", PlayerPrefs.GetInt("UnlockedLevels") + 1);
         } else {
             nextLevel.SetActive(false);
         }
+    }
+
+    public void PlayAudioClip(int clip) {
+        source.PlayOneShot(clips[clip]);
     }
 
 }

@@ -34,6 +34,7 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Collectible") {
             score++;
+            manager.PlayAudioClip(1);
             manager.UpdateScore(score);
             Destroy(collision.gameObject);
         } else if (collision.gameObject.tag == "TurnLeftTrigger") {
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour {
             spawnPosition.y += -1;
             tower.Add(Instantiate(towerCubePrefab, spawnPosition, Quaternion.identity, playerPawn));
             towerSize++;
+            manager.PlayAudioClip(0);
         }
     }
 
