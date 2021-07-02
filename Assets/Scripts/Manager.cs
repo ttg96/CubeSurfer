@@ -79,7 +79,6 @@ public class Manager : MonoBehaviour
 
     public void UpdateLevelSelection() {
         int unlocked = PlayerPrefs.GetInt("UnlockedLevels");
-        Debug.Log(unlocked);
         for (int i = 0; i < levelButtons.Length; i++) {
             if(i <= unlocked) {
                 levelButtons[i].interactable = true;
@@ -91,6 +90,7 @@ public class Manager : MonoBehaviour
         PauseGame(false);
         canvasPanel.SetActive(false);
         levelBuilder.LevelSelect(level-1);
+        levelSelect.SetActive(false);
         inGameUI.SetActive(true);
     }
 
@@ -98,12 +98,14 @@ public class Manager : MonoBehaviour
         PauseGame(false);
         canvasPanel.SetActive(false);
         levelBuilder.LoadLevel();
+        levelSelect.SetActive(false);
         inGameUI.SetActive(true);
     }
 
     public void Restart() {
         PauseGame(false);
         canvasPanel.SetActive(false);
+        gameOverScreen.SetActive(false);
         inGameUI.SetActive(true);
         levelBuilder.RestartLevel();
     }
@@ -111,6 +113,7 @@ public class Manager : MonoBehaviour
     public void LoadNextLevel() {
         PauseGame(false);
         canvasPanel.SetActive(false);
+        gameOverScreen.SetActive(false);
         inGameUI.SetActive(true);
         levelBuilder.NextLevel();
     }
