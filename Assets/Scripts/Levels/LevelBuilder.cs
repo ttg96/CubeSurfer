@@ -62,7 +62,7 @@ public class LevelBuilder : MonoBehaviour
     }
 
     public void NextLevel() {
-        selectedLevel = allLevels[selectedLevel.nextLevel];
+        selectedLevel = allLevels[selectedLevel.nextLevel-1];
         LoadLevel();
         SpawnPlayer();
     }

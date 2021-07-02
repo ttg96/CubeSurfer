@@ -37,6 +37,7 @@ public class Manager : MonoBehaviour
         source = GetComponent<AudioSource>();
         if (!PlayerPrefs.HasKey("UnlockedLevels")) PlayerPrefs.SetInt("UnlockedLevels", 0);
         if (!PlayerPrefs.HasKey("HighScore")) PlayerPrefs.SetInt("HighScore", 0);
+        UpdateHighscores();
     }
 
     public void UpdateScore(int score) {
@@ -44,7 +45,7 @@ public class Manager : MonoBehaviour
     }
 
     public void UpdateHighscores() {
-        highScore.text = "Current score" + PlayerPrefs.GetInt("HighScore");
+        highScore.text = "Current score: " + PlayerPrefs.GetInt("HighScore");
     }
 
     public void UpdateFinalScores(int score) {
@@ -69,6 +70,7 @@ public class Manager : MonoBehaviour
         mainMenu.SetActive(true);
         levelSelect.SetActive(false);
         gameOverScreen.SetActive(false);
+        UpdateHighscores();
     }
 
     public void LoadLevelScreen() {
@@ -103,11 +105,11 @@ public class Manager : MonoBehaviour
     }
 
     public void Restart() {
-        PauseGame(false);
         canvasPanel.SetActive(false);
         gameOverScreen.SetActive(false);
         inGameUI.SetActive(true);
         levelBuilder.RestartLevel();
+        PauseGame(false);
     }
 
     public void LoadNextLevel() {
