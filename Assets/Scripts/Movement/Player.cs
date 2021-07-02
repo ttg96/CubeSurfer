@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     private GameObject towerCubePrefab;
     [SerializeField]
     private int towerSize;
+    private Manager manager;
     private List<GameObject> tower;
     private Transform playerPawn;
     private int score;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour {
     void Start() {
         score = 0;
         multiplier = 1;
+        manager = FindObjectOfType<Manager>();
         tower = new List<GameObject>(towerSize);
         playerPawn = transform.GetChild(0).gameObject.transform;
         for (int i = 0; i < playerPawn.childCount; i++) {
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Collectible") {
             score++;
+            manager.UpdateScore(score);
             Destroy(collision.gameObject);
         } else if (collision.gameObject.tag == "TurnLeftTrigger") {
             StartCoroutine(Rotate(-1));
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour {
             multiplier *= 2;
             Destroy(collision.gameObject);
         } else if (collision.gameObject.tag == "Finish") {
-            EndLevel();
+            EndLevel(true);
             Destroy(collision.gameObject);
         }
     }
@@ -51,7 +54,7 @@ public class Player : MonoBehaviour {
     public void AddCubes(int amount) {
         for (int i = 0; i < amount; i++) {
             Vector3 newPosition = playerPawn.position;
-            newPosition.y += 1;
+            newPosition.y += 1.2f;
             playerPawn.position = newPosition;
             Vector3 spawnPosition = tower[towerSize - 1].transform.position;
             spawnPosition.y += -1;
@@ -64,13 +67,15 @@ public class Player : MonoBehaviour {
         tower.Remove(cube);
         towerSize--;
         if(towerSize == 0) {
-            EndLevel();
+            EndLevel(false);
         }
     }
 
-    public void EndLevel() {
+    public void EndLevel(bool finished) {
         Time.timeScale = 0;
         score *= multiplier;
+        if (multiplier > 1) finished = true;
+        manager.GameOver(score, finished);
     }
 
     IEnumerator Rotate(int direction) {
@@ -79,9 +84,5 @@ public class Player : MonoBehaviour {
             transform.Rotate(newRotation, Space.Self);
             yield return new WaitForSeconds(0.01f);
         }
-    }
-
-    public int ReturnScore() {
-        return score;
     }
 }

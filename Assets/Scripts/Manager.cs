@@ -1,0 +1,128 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Manager : MonoBehaviour
+{
+    [SerializeField]
+    private Text currentScore;
+    [SerializeField]
+    private Text finalScore;
+    [SerializeField]
+    private Text highScore;
+    [SerializeField]
+    private GameObject inGameUI;
+    [SerializeField]
+    private GameObject mainMenu;
+    [SerializeField]
+    private GameObject levelSelect;
+    [SerializeField]
+    private GameObject canvasPanel;
+    [SerializeField]
+    private GameObject gameOverScreen;
+    [SerializeField]
+    private GameObject nextLevel;
+    [SerializeField]
+    private Button[] levelButtons;
+    private LevelBuilder levelBuilder;
+
+
+    private void Start() {
+        PauseGame(true);
+        levelBuilder = GetComponent<LevelBuilder>();
+        if (!PlayerPrefs.HasKey("UnlockedLevels")) PlayerPrefs.SetInt("UnlockedLevels", 0);
+        if (!PlayerPrefs.HasKey("HighScore")) PlayerPrefs.SetInt("HighScore", 0);
+    }
+
+    public void UpdateScore(int score) {
+        currentScore.text = "Score: " + score;
+    }
+
+    public void UpdateHighscores() {
+        highScore.text = "Current score" + PlayerPrefs.GetInt("HighScore");
+    }
+
+    public void UpdateFinalScores(int score) {
+        finalScore.text = "Final Score: " + score;
+    }
+
+    public void PauseGame(bool state) {
+        if (state) {
+            Time.timeScale = 0;
+        } else {
+            Time.timeScale = 1;
+        }
+    }
+
+    public void ExitGameToMenu() {
+        PauseGame(true);
+        canvasPanel.SetActive(true);
+        LoadMenu();
+    }
+
+    public void LoadMenu() {
+        mainMenu.SetActive(true);
+        levelSelect.SetActive(false);
+        gameOverScreen.SetActive(false);
+    }
+
+    public void LoadLevelScreen() {
+        mainMenu.SetActive(false);
+        levelSelect.SetActive(true);
+        UpdateLevelSelection();
+    }
+
+    public void UpdateLevelSelection() {
+        int unlocked = PlayerPrefs.GetInt("UnlockedLevels");
+        Debug.Log(unlocked);
+        for (int i = 0; i < levelButtons.Length; i++) {
+            if(i <= unlocked) {
+                levelButtons[i].interactable = true;
+            }
+        }
+    }
+
+    public void LoadSelectedLevel(int level) {
+        PauseGame(false);
+        canvasPanel.SetActive(false);
+        levelBuilder.LevelSelect(level-1);
+        inGameUI.SetActive(true);
+    }
+
+    public void LoadRandomLevel() {
+        PauseGame(false);
+        canvasPanel.SetActive(false);
+        levelBuilder.LoadLevel();
+        inGameUI.SetActive(true);
+    }
+
+    public void Restart() {
+        PauseGame(false);
+        canvasPanel.SetActive(false);
+        inGameUI.SetActive(true);
+        levelBuilder.RestartLevel();
+    }
+
+    public void LoadNextLevel() {
+        PauseGame(false);
+        canvasPanel.SetActive(false);
+        inGameUI.SetActive(true);
+        levelBuilder.NextLevel();
+    }
+
+    public void GameOver(int score, bool finished) {
+        PauseGame(true);
+        inGameUI.SetActive(false);
+        canvasPanel.SetActive(true);
+        gameOverScreen.SetActive(true);
+        UpdateFinalScores(score);
+        if (finished) {
+            nextLevel.SetActive(true);
+            PlayerPrefs.SetInt("UnlockedLevels", PlayerPrefs.GetInt("UnlockedLevels") + 1);
+        } else {
+            nextLevel.SetActive(false);
+        }
+    }
+
+}
