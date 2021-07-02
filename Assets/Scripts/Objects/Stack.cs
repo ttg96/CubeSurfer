@@ -28,7 +28,7 @@ public class Stack : MonoBehaviour
     IEnumerator selfDestruct() {
         for (int i = 0; i < cubeStackSize; i++) {
             Destroy(cubeStack[i]);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.5f);
         }
         Destroy(gameObject);
     }

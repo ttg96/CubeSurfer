@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     private int towerSize;
     private List<GameObject> tower;
     private Transform playerPawn;
-    [SerializeField]
     private int score;
 
     // Start is called before the first frame update
@@ -28,7 +27,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -42,9 +41,16 @@ public class Player : MonoBehaviour
             score++;
             Destroy(collision.gameObject);
         } else if(collision.gameObject.tag == "TurnLeftTrigger") {
-            Debug.Log("Here");
-            Vector3 newRotation = new Vector3(0, -90, 0);
-            transform.Rotate(newRotation, Space.World);
+            StartCoroutine(Rotate(-1));
+            Destroy(collision.gameObject);
+        }
+    }
+
+    IEnumerator Rotate(int direction) {
+        for(int i = 0; i < 90; i++) {
+            Vector3 newRotation = new Vector3(0, direction, 0);
+            transform.Rotate(newRotation, Space.Self);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
