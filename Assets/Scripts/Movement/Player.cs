@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
 
     [SerializeField]
     private GameObject towerCubePrefab;
@@ -12,22 +11,16 @@ public class Player : MonoBehaviour
     private List<GameObject> tower;
     private Transform playerPawn;
     private int score;
+    private int multiplier;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         score = 0;
+        multiplier = 1;
         tower = new List<GameObject>(towerSize);
         playerPawn = transform.GetChild(0).gameObject.transform;
         for (int i = 0; i < playerPawn.childCount; i++) {
             tower.Add(playerPawn.GetChild(i).gameObject);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -37,25 +30,26 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider collision) {
-        if(collision.gameObject.tag == "Collectible") {
+        if (collision.gameObject.tag == "Collectible") {
             score++;
             Destroy(collision.gameObject);
-        } else if(collision.gameObject.tag == "TurnLeftTrigger") {
+        } else if (collision.gameObject.tag == "TurnLeftTrigger") {
             StartCoroutine(Rotate(-1));
             Destroy(collision.gameObject);
-        }
-    }
-
-    IEnumerator Rotate(int direction) {
-        for(int i = 0; i < 90; i++) {
-            Vector3 newRotation = new Vector3(0, direction, 0);
-            transform.Rotate(newRotation, Space.Self);
-            yield return new WaitForSeconds(0.01f);
+        } else if (collision.gameObject.tag == "TurnRightTrigger") {
+            StartCoroutine(Rotate(1));
+            Destroy(collision.gameObject);
+        } else if (collision.gameObject.tag == "BonusTrigger") {
+            multiplier *= 2;
+            Destroy(collision.gameObject);
+        } else if (collision.gameObject.tag == "Finish") {
+            EndLevel();
+            Destroy(collision.gameObject);
         }
     }
 
     public void AddCubes(int amount) {
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             Vector3 newPosition = playerPawn.position;
             newPosition.y += 1;
             playerPawn.position = newPosition;
@@ -69,5 +63,25 @@ public class Player : MonoBehaviour
     public void RemoveCubes(GameObject cube) {
         tower.Remove(cube);
         towerSize--;
+        if(towerSize == 0) {
+            EndLevel();
+        }
+    }
+
+    public void EndLevel() {
+        Time.timeScale = 0;
+        score *= multiplier;
+    }
+
+    IEnumerator Rotate(int direction) {
+        for (int i = 0; i < 90; i++) {
+            Vector3 newRotation = new Vector3(0, direction, 0);
+            transform.Rotate(newRotation, Space.Self);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    public int ReturnScore() {
+        return score;
     }
 }
