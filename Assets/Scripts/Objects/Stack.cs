@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Stack : MonoBehaviour
@@ -11,6 +10,7 @@ public class Stack : MonoBehaviour
     private int cubeStackSize;
     private GameObject[] cubeStack;
 
+    //Creates stack based on number provided
     private void Start() {
         Vector3 spawnPosition = transform.position;
         cubeStack = new GameObject[cubeStackSize];
@@ -20,11 +20,13 @@ public class Stack : MonoBehaviour
         }
     }
 
+    //Sends size to player and start self destruction
     public int TowerCollection() {
         StartCoroutine(selfDestruct());
         return cubeStackSize;
     }
 
+    //Destroys cubes one by one with a small delay
     IEnumerator selfDestruct() {
         for (int i = 0; i < cubeStackSize; i++) {
             Destroy(cubeStack[i]);

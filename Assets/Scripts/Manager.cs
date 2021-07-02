@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,23 +40,28 @@ public class Manager : MonoBehaviour
         UpdateHighscores();
     }
 
+    //Update score on game UI
     public void UpdateScore(int score) {
         currentScore.text = "Score: " + score;
     }
 
+    //Update multiplier on game UI
     public void UpdateMultiplier(int multi) {
         currentMultiplier.text = "Multiplier: x" + multi;
     }
 
+    //Update highscore on main screen
     public void UpdateHighscores() {
         highScore.text = "Current score: " + PlayerPrefs.GetInt("HighScore");
     }
 
+    //Update score on game over screen
     public void UpdateFinalScores(int score) {
         finalScore.text = "Final Score: " + score;
         PlayerPrefs.SetInt("HighScore", PlayerPrefs.GetInt("HighScore") + score);
     }
 
+    //Pause game
     public void PauseGame(bool state) {
         if (state) {
             Time.timeScale = 0;
@@ -67,12 +70,14 @@ public class Manager : MonoBehaviour
         }
     }
 
+    //Exit game to the main menu
     public void ExitGameToMenu() {
         PauseGame(true);
         canvasPanel.SetActive(true);
         LoadMenu();
     }
 
+    //Load the main menu
     public void LoadMenu() {
         mainMenu.SetActive(true);
         levelSelect.SetActive(false);
@@ -80,12 +85,14 @@ public class Manager : MonoBehaviour
         UpdateHighscores();
     }
 
+    //Load the level select screen
     public void LoadLevelScreen() {
         mainMenu.SetActive(false);
         levelSelect.SetActive(true);
         UpdateLevelSelection();
     }
 
+    //Update which levels the player can select based on player prefs
     public void UpdateLevelSelection() {
         int unlocked = PlayerPrefs.GetInt("UnlockedLevels");
         for (int i = 0; i < levelButtons.Length; i++) {
@@ -95,6 +102,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    //Load selected level
     public void LoadSelectedLevel(int level) {
         PauseGame(false);
         canvasPanel.SetActive(false);
@@ -103,6 +111,7 @@ public class Manager : MonoBehaviour
         inGameUI.SetActive(true);
     }
 
+    //Load a randomly generated level
     public void LoadRandomLevel() {
         PauseGame(false);
         canvasPanel.SetActive(false);
@@ -111,6 +120,7 @@ public class Manager : MonoBehaviour
         inGameUI.SetActive(true);
     }
 
+    //Restart current level
     public void Restart() {
         canvasPanel.SetActive(false);
         gameOverScreen.SetActive(false);
@@ -119,6 +129,7 @@ public class Manager : MonoBehaviour
         PauseGame(false);
     }
 
+    //Load the next level
     public void LoadNextLevel() {
         PauseGame(false);
         canvasPanel.SetActive(false);
@@ -127,6 +138,7 @@ public class Manager : MonoBehaviour
         levelBuilder.NextLevel();
     }
 
+    //Game over UI
     public void GameOver(int score, bool finished) {
         PauseGame(true);
         inGameUI.SetActive(false);
@@ -142,6 +154,7 @@ public class Manager : MonoBehaviour
         }
     }
 
+    //Play selected sound clip
     public void PlayAudioClip(int clip) {
         source.PlayOneShot(clips[clip]);
     }

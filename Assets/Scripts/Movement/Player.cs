@@ -27,12 +27,14 @@ public class Player : MonoBehaviour {
         manager.UpdateMultiplier(multiplier);
     }
 
+    //Check collision with stack
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Stack") {
             AddCubes(collision.gameObject.transform.GetComponent<Stack>().TowerCollection());
         }
     }
 
+    //Check trigger with collectible, turning triggers, bonus or finish
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Collectible") {
             score++;
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour {
         }
     }
 
+    //Add cubes to player
     public void AddCubes(int amount) {
         for (int i = 0; i < amount; i++) {
             Vector3 newPosition = playerPawn.position;
@@ -68,6 +71,7 @@ public class Player : MonoBehaviour {
         }
     }
 
+    //Remove cubes from player
     public void RemoveCubes(GameObject cube) {
         tower.Remove(cube);
         towerSize--;
@@ -76,6 +80,7 @@ public class Player : MonoBehaviour {
         }
     }
 
+    //Send level end signal
     public void EndLevel(bool finished) {
         Time.timeScale = 0;
         score *= multiplier;
@@ -83,6 +88,7 @@ public class Player : MonoBehaviour {
         manager.GameOver(score, finished);
     }
 
+    //Coroutine for smoother rotation
     IEnumerator Rotate(int direction) {
         for (int i = 0; i < 90; i++) {
             Vector3 newRotation = new Vector3(0, direction, 0);

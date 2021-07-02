@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerCube : MonoBehaviour
@@ -11,6 +9,7 @@ public class TowerCube : MonoBehaviour
         player = FindObjectOfType<Player>();
     }
 
+    //Checks collision with wall and detaches from player after noyting them
     private void OnTriggerEnter(Collider collision) {
         if (collision.gameObject.tag == "Wall") {
             player.RemoveCubes(transform.gameObject);

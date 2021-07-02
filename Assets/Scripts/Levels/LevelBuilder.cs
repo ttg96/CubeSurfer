@@ -23,18 +23,21 @@ public class LevelBuilder : MonoBehaviour
     [SerializeField]
     private AssignCamera virtualCamera; 
 
+    //Load selected level
     public void LevelSelect(int level) {
         selectedLevel = allLevels[level];
         LoadLevel();
         SpawnPlayer();
     }
 
+    //Restart current level
     public void RestartLevel() {
         SpawnPlayer();
         ResetLevel();
         LoadLevel();
     }
 
+    //Build level function based on info of scriptable object
     public void LoadLevel() {
         currentLevel = new GameObject[selectedLevel.levelLayout.Length + 1];
         GameObject previousPiece = startingPiece;
@@ -49,24 +52,28 @@ public class LevelBuilder : MonoBehaviour
         currentLevel[selectedLevel.levelLayout.Length] = Instantiate(endPiece, spawnPosition, Quaternion.identity);  
     }
 
+    //Spawn player at start
     private void SpawnPlayer() {
         Destroy(FindObjectOfType<Player>().gameObject);
         GameObject temp = Instantiate(playerPawn, spawnPoint.position, Quaternion.identity);
         virtualCamera.AssignCameraTarget(temp.transform);
     }
 
+    //Delete all pieces for reset
     public void ResetLevel() {
         foreach(GameObject piece in currentLevel) {
             Destroy(piece);
         }
     }
 
+    //Load next level
     public void NextLevel() {
         selectedLevel = allLevels[selectedLevel.nextLevel-1];
         LoadLevel();
         SpawnPlayer();
     }
 
+    //Generate random level and load it
     public void RandomLevel() {
         int[] random = new int[Random.Range(4, 15)];
         for(int i = 0; i < random.Length; i++) {

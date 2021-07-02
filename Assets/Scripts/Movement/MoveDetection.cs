@@ -30,11 +30,13 @@ public class MoveDetection : MonoBehaviour
         inputManager.OnEndTouch -= StopMove;
     }
 
+    //Enable side to side movement
     private void Move(InputAction position) {
         touchPosition = position;
         isTouching = true;
     }
 
+    //Recenter move direction
     private void StopMove() {
         moveDirection = 0;
         isTouching = false;
@@ -54,6 +56,7 @@ public class MoveDetection : MonoBehaviour
     }
     */
 
+    //Player tower movement based on touch input value
     private void FixedUpdate() {
         if (isTouching) {
             moveDirection = touchPosition.ReadValue<Vector2>().x;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Scriptable object for level
 [CreateAssetMenu (fileName = "Data", menuName = "ScriptableObjects/LevelObject", order = 1)]
 public class Level : ScriptableObject
 {

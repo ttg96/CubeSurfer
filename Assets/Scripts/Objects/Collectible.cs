@@ -7,6 +7,7 @@ public class Collectible : MonoBehaviour
     [SerializeField]
     private float rotationSpeed;
 
+    //Function to rotate collectibles
     void FixedUpdate()
     {
         Vector3 newRotation = new Vector3(0, 1, 0);
